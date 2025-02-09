@@ -40,48 +40,54 @@
 </nav>
 
 <div class="container-xxl bd-gutter mt-3 my-md-4">
-    <h2>Create Report</h2>
-    <form name="frmCreateReport" th:action="@{/report/create}" method="post" th:object="${report}">
-        <div class="row mb-3">
-            <div class="col-4">
-                <label class="form-label" for="part">Part <span class="text-danger">*</span></label>
-                <select class="form-select" id="part" name="part" th:field="*{part}" onchange="onPartChange()">
-                    <option value="" data-oem="" data-desc="">-- Select Part --</option>
-                    <option th:each="part : ${partList}" th:value="${part.id}" th:text="${part.number}" th:attr="data-oem=${part.oem},data-desc=${part.description}"></option>
-                </select>
-                <span class="text-danger" th:if="${#fields.hasErrors('part')}" th:errors="*{part}"></span>
+    <h2 class="mb-3">Create Report</h2>
+    <form name="frmCreateReport" th:action="@{/report/create}" method="post" th:object="${report}"
+          enctype="multipart/form-data" class="card p-3">
+        <div>
+            <div class="row mb-3">
+                <div class="col-4">
+                    <label class="form-label fw-bold" for="part">Part <span class="text-danger">*</span></label>
+                    <select class="form-select" id="part" name="part" th:field="*{part}" onchange="onPartChange()">
+                        <option value="" data-oem="" data-desc="">-- Select Part --</option>
+                        <option th:each="part : ${partList}" th:value="${part.id}" th:text="${part.number}"
+                                th:attr="data-oem=${part.oem},data-desc=${part.description}"></option>
+                    </select>
+                    <span class="text-danger" th:if="${#fields.hasErrors('part')}" th:errors="*{part}"></span>
+                </div>
+                <div class="col">
+                    <label for="partDesc" class="form-label fw-bold">OEM & Description</label>
+                    <input placeholder="OEM & description" name="partDesc" id="partDesc" type="text"
+                           class="form-control" readonly/>
+                </div>
             </div>
-            <div class="col">
-                <label for="partDesc" class="form-label">OEM & Description</label>
-                <input placeholder="OEM & description" name="partDesc" id="partDesc" type="text" class="form-control" readonly/>
+
+            <div class="row my-3">
+                <div class="col">
+                    <label class="form-label fw-bold" for="engineer">Engineer <span class="text-danger">*</span></label>
+                    <select class="form-select" id="engineer" name="engineer" th:field="*{engineer}">
+                        <option value="">-- Select Engineer --</option>
+                        <option th:each="engineer : ${engineerList}" th:value="${engineer.id}"
+                                th:text="${engineer.name}"></option>
+                    </select>
+                    <span class="text-danger" th:if="${#fields.hasErrors('engineer')}" th:errors="*{engineer}"></span>
+                </div>
+
+                <div class="col">
+                    <label class="form-label fw-bold" for="serial">Serial Number <span
+                            class="text-danger">*</span></label>
+                    <input class="form-control" id="serial" name="serial" type="text" th:field="*{serial}"/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('serial')}" th:errors="*{serial}"></span>
+                </div>
+
+                <div class="col">
+                    <label class="form-label fw-bold" for="date">Date <span class="text-danger">*</span></label>
+                    <input class="form-select" id="date" name="date" type="date" th:field="*{date}"/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+                </div>
             </div>
         </div>
 
-        <div class="row my-3">
-            <div class="col">
-                <label class="form-label" for="engineer">Engineer <span class="text-danger">*</span></label>
-                <select class="form-select" id="engineer" name="engineer" th:field="*{engineer}">
-                    <option value="">-- Select Engineer --</option>
-                    <option th:each="engineer : ${engineerList}" th:value="${engineer.id}"
-                            th:text="${engineer.name}"></option>
-                </select>
-                <span class="text-danger" th:if="${#fields.hasErrors('engineer')}" th:errors="*{engineer}"></span>
-            </div>
-
-            <div class="col">
-                <label class="form-label" for="serial">Serial Number <span class="text-danger">*</span></label>
-                <input class="form-control" id="serial" name="serial" type="text" th:field="*{serial}"/>
-                <span class="text-danger" th:if="${#fields.hasErrors('serial')}" th:errors="*{serial}"></span>
-            </div>
-
-            <div class="col">
-                <label class="form-label" for="date">Date <span class="text-danger">*</span></label>
-                <input class="form-select" id="date" name="date" type="date" th:field="*{date}"/>
-                <span class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
-            </div>
-        </div>
-
-        <hr>
+        <hr class="my-4">
 
         <div class="row my-3">
             <h4>Visual Inspection (External)</h4>
@@ -98,7 +104,7 @@
                 </div>
                 <div id="externalVisualDamagesSection" class="collapse input-group mt-2">
                     <label class="input-group-text" for="externalVisualDamagesImage">Image</label>
-                    <input class="form-control" type="file" th:field="*{externalVisualDamagesImageRef}"
+                    <input class="form-control" type="file" th:field="*{externalVisualDamagesImage}"
                            accept="image/*"/>
                 </div>
             </div>
@@ -115,7 +121,7 @@
                 </div>
                 <div id="externalWaterIngressSection" class="collapse input-group mt-2">
                     <label class="input-group-text" for="externalWaterIngressImage">Image</label>
-                    <input class="form-control" type="file" th:field="*{externalWaterIngressImageRef}"
+                    <input class="form-control" type="file" th:field="*{externalWaterIngressImage}"
                            accept="image/*"/>
                 </div>
             </div>
@@ -133,7 +139,7 @@
                 </div>
                 <div id="externalPowerSurgeSection" class="collapse input-group mt-2">
                     <label class="input-group-text" for="externalPowerSurgeImage">Image</label>
-                    <input class="form-control" type="file" th:field="*{externalPowerSurgeImageRef}" accept="image/*"/>
+                    <input class="form-control" type="file" th:field="*{externalPowerSurgeImage}" accept="image/*"/>
                 </div>
             </div>
 
@@ -147,8 +153,8 @@
                     <span th:errors="*{hasDamagedConnectors}"></span>
                 </div>
                 <div id="damagedConnectorsSection" class="collapse input-group mt-2">
-                    <label class="input-group-text"  for="damagedConnectorsImage">Image</label>
-                    <input class="form-control" type="file" th:field="*{damagedConnectorsImageRef}" accept="image/*"/>
+                    <label class="input-group-text" for="damagedConnectorsImage">Image</label>
+                    <input class="form-control" type="file" th:field="*{damagedConnectorsImage}" accept="image/*"/>
                 </div>
             </div>
         </div>
@@ -186,7 +192,7 @@
                 <div id="internalVisualDamagesSection" class="collapse input-group mt-2">
                     <label class="input-group-text" for="internalVisualDamagesImage">Image</label>
                     <input class="form-control" id="internalVisualDamagesImage" type="file"
-                           th:field="*{internalVisualDamagesImageRef}" accept="image/*"/>
+                           th:field="*{internalVisualDamagesImage}" accept="image/*"/>
                 </div>
             </div>
 
@@ -203,12 +209,10 @@
                 <div id="internalWaterIngressSection" class="collapse input-group mt-2">
                     <label class="input-group-text" for="internalWaterIngressImage">Image</label>
                     <input class="form-control" id="internalWaterIngressImage" type="file"
-                           th:field="*{internalWaterIngressImageRef}" accept="image/*"/>
+                           th:field="*{internalWaterIngressImage}" accept="image/*"/>
                 </div>
             </div>
         </div>
-
-        <hr>
 
         <div class="row my-3">
             <div class="col-6">
@@ -221,9 +225,9 @@
                     <span th:errors="*{hasInternalPowerSurge}"></span>
                 </div>
                 <div id="internalPowerSurgeSection" class="collapse input-group mt-2">
-                    <label class="input-group-text" for="internalPowerSurgeImage">Upload Image:</label>
+                    <label class="input-group-text" for="internalPowerSurgeImage">Image:</label>
                     <input class="form-control" id="internalPowerSurgeImage" type="file"
-                           th:field="*{internalPowerSurgeImageRef}" accept="image/*"/>
+                           th:field="*{internalPowerSurgeImage}" accept="image/*"/>
                 </div>
             </div>
         </div>
@@ -253,10 +257,10 @@
                         </div>
                         <div class="col">
                             <input type="file" class="form-control"
-                                   th:field="*{repairProcesses[__${i.index}__].imageRef}" accept="image/*">
+                                   th:field="*{repairProcesses[__${i.index}__].image}" accept="image/*">
                             <span class="text-danger"
-                                  th:if="${#fields.hasErrors('repairProcesses[__${i.index}__].imageRef')}"
-                                  th:errors="*{repairProcesses[__${i.index}__].imageRef}"></span>
+                                  th:if="${#fields.hasErrors('repairProcesses[__${i.index}__].image')}"
+                                  th:errors="*{repairProcesses[__${i.index}__].image}"></span>
                         </div>
                         <div class="col-1">
                             <button type="button" class="btn btn-danger" th:onclick="|removeRow(${i.index})|">Remove
@@ -266,33 +270,35 @@
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary mt-3 col-2" onclick="addRow()">Add Repair Process</button>
+            <button type="button" class="btn btn-primary mt-3 col-2 mx-3" onclick="addRow()">Add Repair Process</button>
         </div>
 
         <hr>
 
         <div class="row my-3">
             <h3>Tooling</h3>
-            <div th:each="tooling : ${toolingList}">
-                <input type="checkbox"
-                       class="form-check-input"
-                       th:id="'tooling-' + ${tooling.id}"
-                       th:value="${tooling.id}"
-                       name="toolingSelected"
-                       th:onclick="|toggleCommentBox(${tooling.id})|">
-                <label class="form-check-label" th:text="${tooling.name}"></label>
+            <div th:each="tooling : ${toolingList}" class="col-md-6 d-flex align-items-center">
+                <div class="mb-3 w-100">
+                    <input type="checkbox"
+                           class="form-check-input"
+                           th:id="'tooling-' + ${tooling.id}"
+                           th:value="${tooling.id}"
+                           name="toolingSelected"
+                           th:onclick="|toggleCommentBox(${tooling.id})|">
+                    <label class="form-check-label" th:text="${tooling.name}"></label>
 
-                <div class="col-3" th:id="'comment-box-' + ${tooling.id}" style="display: none;">
-                    <label class="form-label" for="comment-${tooling.id}">Comment:</label>
-                    <input class="form-control"
-                           th:name="'reportToolings[' + ${tooling.id} + '].comment'"
-                           id="comment-${tooling.id}"
-                           placeholder="Add a comment">
+                    <div th:id="'comment-box-' + ${tooling.id}" style="display: none;">
+                        <input class="form-control my-2"
+                               th:name="'reportToolings[' + ${tooling.id} + '].comment'"
+                               id="comment-${tooling.id}"
+                               placeholder="Add a comment">
+                    </div>
                 </div>
             </div>
         </div>
 
-        <button class="btn btn-primary mt-3" type="submit">Create</button>
+        <button class="btn btn-primary mt-3 col-2" type="submit">Create</button>
+
     </form>
 
     <div id="repairProcessTemplate" class="d-none">
@@ -307,7 +313,7 @@
                            placeholder="What was the result?">
                 </div>
                 <div class="col">
-                    <input type="file" class="form-control" name="repairProcesses[INDEX].imageRef" accept="image/*">
+                    <input type="file" class="form-control" name="repairProcesses[INDEX].image" accept="image/*">
                 </div>
                 <div class="col-1">
                     <button type="button" class="btn btn-danger" onclick="removeRow(INDEX)">Remove</button>
@@ -339,12 +345,12 @@
             row.id = `row-${index}`;
             row.querySelector("input[name^='repairProcesses']").setAttribute("name", `repairProcesses[${index}].action`);
             row.querySelectorAll("input[name^='repairProcesses']")[1].setAttribute("name", `repairProcesses[${index}].result`);
-            row.querySelector("input[type='file']").setAttribute("name", `repairProcesses[${index}].imageRef`);
+            row.querySelector("input[type='file']").setAttribute("name", `repairProcesses[${index}].image`);
             row.querySelector("button").setAttribute("onclick", `removeRow(${index})`);
         });
     }
 
-    function toggleCommentBox(toolingId) {
+    const toggleCommentBox = (toolingId) => {
         const checkbox = document.getElementById('tooling-' + toolingId);
         const commentBox = document.getElementById('comment-box-' + toolingId);
 
@@ -355,7 +361,7 @@
         }
     }
 
-    function onPartChange() {
+    const onPartChange = () => {
         const partElem = document.frmCreateReport.part;
         const selectedValue = partElem.value;
 

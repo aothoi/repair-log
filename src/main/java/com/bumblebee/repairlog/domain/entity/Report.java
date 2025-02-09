@@ -1,5 +1,6 @@
 package com.bumblebee.repairlog.domain.entity;
 
+import com.bumblebee.repairlog.domain.dto.ReportDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -99,4 +100,23 @@ public class Report extends Auditable {
 
     private boolean hasInternalPowerSurge;
     private String internalPowerSurgeImageRef;
+
+    public static Report initialize(ReportDto reportDto) {
+        return Report.builder()
+                .part(reportDto.getPart())
+                .engineer(reportDto.getEngineer())
+                .reportToolings(reportDto.getReportToolings())
+                .repairProcesses(reportDto.getRepairProcesses())
+                .unitDoesNotPowerUp(reportDto.isUnitDoesNotPowerUp())
+                .date(reportDto.getDate())
+                .serial(reportDto.getSerial())
+                .hasExternalVisualDamages(reportDto.isHasExternalVisualDamages())
+                .hasExternalWaterIngress(reportDto.isHasExternalWaterIngress())
+                .hasExternalPowerSurge(reportDto.isHasExternalPowerSurge())
+                .hasDamagedConnectors(reportDto.isHasDamagedConnectors())
+                .hasInternalVisualDamages(reportDto.isHasInternalVisualDamages())
+                .hasInternalWaterIngress(reportDto.isHasInternalWaterIngress())
+                .hasInternalPowerSurge(reportDto.isHasInternalPowerSurge())
+                .build();
+    }
 }

@@ -23,7 +23,6 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Builder
-@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -1,9 +1,10 @@
 package com.bumblebee.repairlog.controller;
 
-import com.bumblebee.repairlog.domain.entity.Report;
+import com.bumblebee.repairlog.domain.dto.ReportDto;
 import com.bumblebee.repairlog.repository.EngineerRepository;
 import com.bumblebee.repairlog.repository.PartRepository;
 import com.bumblebee.repairlog.repository.ToolingRepository;
+import com.bumblebee.repairlog.service.ReportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+
+import static com.bumblebee.repairlog.util.Paths.CREATE_REPORT_PAGE;
+import static com.bumblebee.repairlog.util.Paths.REPORT_LIST_PAGE;
 
 /**
  * @author aothoi
@@ -31,6 +35,8 @@ public class ReportController {
 
     private final ToolingRepository toolingRepository;
 
+    private final ReportService reportService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -38,34 +44,31 @@ public class ReportController {
 
     @GetMapping("/create")
     public String getCreateReportForm(Model model) {
-        getReportModelAttributes(model, new Report());
+        getReportModelAttributes(model, new ReportDto());
 
-        return "create-report";
+        return CREATE_REPORT_PAGE;
     }
 
     @PostMapping("/create")
-    public String createReport(@Valid @ModelAttribute Report report,
+    public String createReport(@Valid @ModelAttribute ReportDto report,
                                BindingResult bindingResult,
                                Model model) {
 
-        System.out.println("============");
-        System.out.println(report.toString());
-        System.out.println("============");
-//
+        reportService.save(report);
 //        if (bindingResult.hasErrors()) {
 //            getReportModelAttributes(model, report);
 //
 //            return "create-report";
 //        }
 
-        getReportModelAttributes(model, new Report());
+        getReportModelAttributes(model, new ReportDto());
 
-        return "create-report";
+        return CREATE_REPORT_PAGE;
     }
 
     @GetMapping("/list")
     public String getReportList(Model model) {
-        return "report-list";
+        return REPORT_LIST_PAGE;
     }
 
     @GetMapping("/{formId}/details")
@@ -73,7 +76,7 @@ public class ReportController {
         return "create-report";
     }
 
-    private void getReportModelAttributes(Model model, Report report) {
+    private void getReportModelAttributes(Model model, ReportDto report) {
         model.addAllAttributes(Map.of(
                 "report", report,
                 "engineerList", engineerRepository.findAll(),
