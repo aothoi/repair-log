@@ -50,16 +50,18 @@ public class ReportController {
     }
 
     @PostMapping("/create")
-    public String createReport(@Valid @ModelAttribute ReportDto report,
+    public String createReport(@Valid @ModelAttribute ReportDto reportDto,
                                BindingResult bindingResult,
                                Model model) {
+        System.out.println("============== " + reportDto.getReportToolings());
 
-        reportService.save(report);
 //        if (bindingResult.hasErrors()) {
-//            getReportModelAttributes(model, report);
+//            getReportModelAttributes(model, reportDto);
 //
 //            return "create-report";
 //        }
+
+//        reportService.save(report);
 
         getReportModelAttributes(model, new ReportDto());
 
@@ -76,9 +78,9 @@ public class ReportController {
         return "create-report";
     }
 
-    private void getReportModelAttributes(Model model, ReportDto report) {
+    private void getReportModelAttributes(Model model, ReportDto reportDto) {
         model.addAllAttributes(Map.of(
-                "report", report,
+                "reportDto", reportDto,
                 "engineerList", engineerRepository.findAll(),
                 "partList", partRepository.findAll(),
                 "toolingList", toolingRepository.findAll()

@@ -41,7 +41,7 @@
 
 <div class="container-xxl bd-gutter mt-3 my-md-4">
     <h2 class="mb-3">Create Report</h2>
-    <form name="frmCreateReport" th:action="@{/report/create}" method="post" th:object="${report}"
+    <form name="frmCreateReport" th:action="@{/report/create}" method="post" th:object="${reportDto}"
           enctype="multipart/form-data" class="card p-3">
         <div>
             <div class="row mb-3">
@@ -283,7 +283,6 @@
                            class="form-check-input"
                            th:id="'tooling-' + ${tooling.id}"
                            th:value="${tooling.id}"
-                           name="toolingSelected"
                            th:onclick="|toggleCommentBox(${tooling.id})|">
                     <label class="form-check-label" th:text="${tooling.name}"></label>
 
