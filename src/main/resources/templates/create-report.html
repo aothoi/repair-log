@@ -103,7 +103,7 @@
                 <div th:if="${#fields.hasErrors('hasExternalVisualDamages')}">
                     <span th:errors="*{hasExternalVisualDamages}"></span>
                 </div>
-                <div id="externalVisualDamagesSection" class="collapse input-group mt-2">
+                <div id="externalVisualDamagesSection" class="collapse input-group mt-2" th:classappend="*{hasExternalVisualDamages} ? 'show'">
                     <label class="input-group-text" for="externalVisualDamagesImage">Image</label>
                     <input class="form-control" type="file" th:field="*{externalVisualDamagesImage}"
                            accept="image/*"/>
@@ -120,7 +120,7 @@
                 <div th:if="${#fields.hasErrors('hasExternalWaterIngress')}">
                     <span th:errors="*{hasExternalWaterIngress}"></span>
                 </div>
-                <div id="externalWaterIngressSection" class="collapse input-group mt-2">
+                <div id="externalWaterIngressSection" class="collapse input-group mt-2" th:classappend="*{hasExternalWaterIngress} ? 'show'">
                     <label class="input-group-text" for="externalWaterIngressImage">Image</label>
                     <input class="form-control" type="file" th:field="*{externalWaterIngressImage}"
                            accept="image/*"/>
@@ -138,7 +138,7 @@
                 <div th:if="${#fields.hasErrors('hasExternalPowerSurge')}">
                     <span th:errors="*{hasExternalPowerSurge}"></span>
                 </div>
-                <div id="externalPowerSurgeSection" class="collapse input-group mt-2">
+                <div id="externalPowerSurgeSection" class="collapse input-group mt-2" th:classappend="*{hasExternalPowerSurge} ? 'show'">
                     <label class="input-group-text" for="externalPowerSurgeImage">Image</label>
                     <input class="form-control" type="file" th:field="*{externalPowerSurgeImage}" accept="image/*"/>
                 </div>
@@ -153,7 +153,7 @@
                 <div th:if="${#fields.hasErrors('hasDamagedConnectors')}">
                     <span th:errors="*{hasDamagedConnectors}"></span>
                 </div>
-                <div id="damagedConnectorsSection" class="collapse input-group mt-2">
+                <div id="damagedConnectorsSection" class="collapse input-group mt-2" th:classappend="*{hasDamagedConnectors} ? 'show'">
                     <label class="input-group-text" for="damagedConnectorsImage">Image</label>
                     <input class="form-control" type="file" th:field="*{damagedConnectorsImage}" accept="image/*"/>
                 </div>
@@ -190,7 +190,7 @@
                 <div th:if="${#fields.hasErrors('hasInternalVisualDamages')}">
                     <span th:errors="*{hasInternalVisualDamages}"></span>
                 </div>
-                <div id="internalVisualDamagesSection" class="collapse input-group mt-2">
+                <div id="internalVisualDamagesSection" class="collapse input-group mt-2" th:classappend="*{hasInternalVisualDamages} ? 'show'">
                     <label class="input-group-text" for="internalVisualDamagesImage">Image</label>
                     <input class="form-control" id="internalVisualDamagesImage" type="file"
                            th:field="*{internalVisualDamagesImage}" accept="image/*"/>
@@ -207,7 +207,7 @@
                 <div th:if="${#fields.hasErrors('hasInternalWaterIngress')}">
                     <span th:errors="*{hasInternalWaterIngress}"></span>
                 </div>
-                <div id="internalWaterIngressSection" class="collapse input-group mt-2">
+                <div id="internalWaterIngressSection" class="collapse input-group mt-2" th:classappend="*{hasInternalWaterIngress} ? 'show'">
                     <label class="input-group-text" for="internalWaterIngressImage">Image</label>
                     <input class="form-control" id="internalWaterIngressImage" type="file"
                            th:field="*{internalWaterIngressImage}" accept="image/*"/>
@@ -225,7 +225,7 @@
                 <div th:if="${#fields.hasErrors('hasInternalPowerSurge')}">
                     <span th:errors="*{hasInternalPowerSurge}"></span>
                 </div>
-                <div id="internalPowerSurgeSection" class="collapse input-group mt-2">
+                <div id="internalPowerSurgeSection" class="collapse input-group mt-2" th:classappend="*{internalPowerSurgeImage} ? 'show'">
                     <label class="input-group-text" for="internalPowerSurgeImage">Image:</label>
                     <input class="form-control" id="internalPowerSurgeImage" type="file"
                            th:field="*{internalPowerSurgeImage}" accept="image/*"/>

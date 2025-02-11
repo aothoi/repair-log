@@ -10,28 +10,63 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <span class="navbar-brand">Bumblebee :: Repair Log</span>
+<nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
+    <div class="container-fluid mx-5">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto my-2 my-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/report/create">Create Report</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link text-primary" href="/report/list">Report List</a>
-            </li>
-        </ul>
+        <span class="navbar-brand">Bumblebee :: Repair Log</span>
+
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="navbarTogglerDemo03">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Bumblebee :: Repair Log</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 nav-underline">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/report/create">Create Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/report/list">Report List</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>
 
 <div class="container-xxl bd-gutter mt-3 my-md-4">
     <h2>Report List</h2>
-
+    <div class="card p-3 my-3">
+        <table class="table table-hover table-responsive table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Report ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Engineer</th>
+                <th scope="col">Part Number</th>
+                <th scope="col">Serial</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="report : ${reports}">
+                <th scope="row" th:text="${report.partNumber + '' + report.serial}"></th>
+                <td th:text="${report.date}"></td>
+                <td th:text="${report.engineerName}"></td>
+                <td th:text="${report.partNumber}"></td>
+                <td th:text="${report.serial}"></td>
+                <td>
+                    <a th:href="@{/report/{id}/details(id=${report.id})}" class="btn btn-primary btn-sm">View</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

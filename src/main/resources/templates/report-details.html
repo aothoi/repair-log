@@ -1,0 +1,174 @@
+<!--
+ * @author aothoi
+ * @since 11-Feb-25
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bumblebee :: Repair Log</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
+    <div class="container-fluid mx-5">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <span class="navbar-brand">Bumblebee :: Repair Log</span>
+
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="navbarTogglerDemo03">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Bumblebee :: Repair Log</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 nav-underline">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/report/create">Create Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/report/list">Report List</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container-xxl bd-gutter mt-3 my-md-4">
+    <h2 class="mb-3">
+        Report ID - <span th:text="${report.part.number + '' + report.serial}"></span>
+    </h2>
+
+    <div class="card p-3">
+        <div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-2">
+                            <label class="form-label fw-bold" for="partNumber">Part Number</label>
+                            <input class="form-control" id="partNumber" type="text" th:value="*{report.part.number}"/>
+                        </div>
+
+                        <div class="col-2">
+                            <label class="form-label fw-bold" for="oem">OEM</label>
+                            <input class="form-control" id="oem" type="text" th:value="*{report.part.oem}"/>
+                        </div>
+
+                        <div class="col">
+                            <label class="form-label fw-bold" for="desc">Description</label>
+                            <input class="form-control" id="desc" type="text" th:value="*{report.part.description}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col">
+                    <label class="form-label fw-bold" for="engineer">Engineer</label>
+                    <input class="form-control" id="engineer" type="text" th:value="*{report.engineer.name}"/>
+                </div>
+
+                <div class="col">
+                    <label class="form-label fw-bold" for="serial">Serial Number</label>
+                    <input class="form-control" id="serial" type="text" th:value="*{report.serial}"/>
+                </div>
+
+                <div class="col">
+                    <label class="form-label fw-bold" for="date">Date</label>
+                    <input class="form-control" id="date" type="text" th:value="*{report.date}"/>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row my-3">
+            <h4>Visual Inspection (External)</h4>
+
+            <div class="col">
+                <div th:if="${report.hasExternalVisualDamages}">
+                    <p><strong>External Visual Damages:</strong> Yes</p>
+                    <div>
+                        <label><strong>Image:</strong></label>
+                        <a th:href="@{'/images/' + ${report.externalVisualDamagesImageRef}}" target="_blank">View Image</a>
+                    </div>
+                </div>
+                <div th:unless="${report.hasExternalVisualDamages}">
+                    <p><strong>External Visual Damages:</strong> No</p>
+                </div>
+            </div>
+
+            <div class="col">
+                <div th:if="${report.hasExternalWaterIngress}">
+                    <p><strong>Signs of External Water Ingress:</strong> Yes</p>
+                    <div>
+                        <label><strong>Image:</strong></label>
+                        <a th:href="@{'/images/' + ${report.externalWaterIngressImageRef}}" target="_blank">View Image</a>
+                    </div>
+                </div>
+                <div th:unless="${report.hasExternalWaterIngress}">
+                    <p><strong>Signs of External Water Ingress:</strong> No</p>
+                </div>
+            </div>
+
+            <!--            <div class="col">-->
+            <!--                <input class="form-check-input" type="checkbox" id="hasExternalWaterIngress"-->
+            <!--                       name="hasExternalWaterIngress"-->
+            <!--                       th:field="*{hasExternalWaterIngress}"-->
+            <!--                       data-bs-toggle="collapse" data-bs-target="#externalWaterIngressSection"-->
+            <!--                />-->
+            <!--                <label class="form-check-label" for="hasExternalWaterIngress">Signs of External Water Ingress</label>-->
+            <!--                <div id="externalWaterIngressSection" class="collapse input-group mt-2" th:classappend="*{hasExternalWaterIngress} ? 'show'">-->
+            <!--                    <label class="input-group-text">Image</label>-->
+            <!--                    <input class="form-control" type="file" th:field="*{externalWaterIngressImage}" accept="image/*"/>-->
+            <!--                </div>-->
+            <!--            </div>-->
+        </div>
+
+        <!--        <div class="row mb-3">-->
+        <!--            <div class="col">-->
+        <!--                <input class="form-check-input" type="checkbox" id="hasExternalPowerSurge" name="hasExternalPowerSurge"-->
+        <!--                       th:field="*{hasExternalPowerSurge}"-->
+        <!--                       data-bs-toggle="collapse" data-bs-target="#externalPowerSurgeSection"-->
+        <!--                />-->
+        <!--                <label class="form-check-label" for="hasExternalPowerSurge">Signs of External Power Surge</label>-->
+        <!--                <div th:if="${#fields.hasErrors('hasExternalPowerSurge')}">-->
+        <!--                    <span th:errors="*{hasExternalPowerSurge}"></span>-->
+        <!--                </div>-->
+        <!--                <div id="externalPowerSurgeSection" class="collapse input-group mt-2" th:classappend="*{hasExternalPowerSurge} ? 'show'">-->
+        <!--                    <label class="input-group-text" for="externalPowerSurgeImage">Image</label>-->
+        <!--                    <input class="form-control" type="file" th:field="*{externalPowerSurgeImage}" accept="image/*"/>-->
+        <!--                </div>-->
+        <!--            </div>-->
+
+        <!--            <div class="col">-->
+        <!--                <input class="form-check-input" type="checkbox" id="hasDamagedConnectors" name="hasDamagedConnectors"-->
+        <!--                       th:field="*{hasDamagedConnectors}"-->
+        <!--                       data-bs-toggle="collapse" data-bs-target="#damagedConnectorsSection"-->
+        <!--                />-->
+        <!--                <label class="form-check-label" for="hasDamagedConnectors">Damaged Connectors</label>-->
+        <!--                <div th:if="${#fields.hasErrors('hasDamagedConnectors')}">-->
+        <!--                    <span th:errors="*{hasDamagedConnectors}"></span>-->
+        <!--                </div>-->
+        <!--                <div id="damagedConnectorsSection" class="collapse input-group mt-2" th:classappend="*{hasDamagedConnectors} ? 'show'">-->
+        <!--                    <label class="input-group-text" for="damagedConnectorsImage">Image</label>-->
+        <!--                    <input class="form-control" type="file" th:field="*{damagedConnectorsImage}" accept="image/*"/>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+
+        <hr>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,9 +1,11 @@
 package com.bumblebee.repairlog.controller;
 
 import com.bumblebee.repairlog.domain.dto.ReportDto;
+import com.bumblebee.repairlog.domain.dto.ReportListDto;
 import com.bumblebee.repairlog.domain.dto.ToolingCommentDto;
 import com.bumblebee.repairlog.repository.EngineerRepository;
 import com.bumblebee.repairlog.repository.PartRepository;
+import com.bumblebee.repairlog.repository.ReportRepository;
 import com.bumblebee.repairlog.repository.ToolingRepository;
 import com.bumblebee.repairlog.service.ReportService;
 import jakarta.validation.Valid;
@@ -18,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-import static com.bumblebee.repairlog.util.Paths.CREATE_REPORT_PAGE;
-import static com.bumblebee.repairlog.util.Paths.REPORT_LIST_PAGE;
+import static com.bumblebee.repairlog.util.Paths.*;
 
 /**
  * @author aothoi
@@ -36,6 +37,8 @@ public class ReportController {
     private final PartRepository partRepository;
 
     private final ToolingRepository toolingRepository;
+
+    private final ReportRepository reportRepository;
 
     private final ReportService reportService;
 
@@ -71,12 +74,20 @@ public class ReportController {
 
     @GetMapping("/list")
     public String getReportList(Model model) {
+        model.addAttribute("reports", reportRepository
+                .findAll()
+                .stream()
+                .map(ReportListDto::initialize)
+                .toList());
+
         return REPORT_LIST_PAGE;
     }
 
-    @GetMapping("/{formId}/details")
-    public String getFormDetails(@PathVariable String formId, Model model) {
-        return "create-report";
+    @GetMapping("/{reportId}/details")
+    public String getFormDetails(@PathVariable Long reportId, Model model) {
+        model.addAttribute("report", reportService.getById(reportId));
+        System.out.println(reportService.getById(reportId).isHasExternalVisualDamages());
+        return REPORT_DETAILS_PAGE;
     }
 
     private void getReportModelAttributes(Model model, ReportDto reportDto, boolean useToolingComments) {

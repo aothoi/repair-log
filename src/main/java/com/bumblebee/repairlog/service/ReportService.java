@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static com.bumblebee.repairlog.util.Constant.*;
@@ -41,6 +42,10 @@ public class ReportService {
         handleImageUpload(reportDto, report, fileBaseName);
 
         reportRepository.saveAndFlush(report);
+    }
+
+    public Report getById(Long id) {
+        return reportRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     private List<ReportRepairProcess> populateRepairProcess(List<ReportRepairProcessDto> reportRepairProcessList,
