@@ -72,6 +72,7 @@ public class Report extends Auditable {
             orphanRemoval = true)
     private List<ReportRepairProcess> repairProcesses;
 
+    @Column(name = "unit_does_not_power_up")
     private boolean unitDoesNotPowerUp;
 
     @NotNull
@@ -80,33 +81,52 @@ public class Report extends Auditable {
     @NotNull
     private String serial;
 
+    @Column(name = "has_external_visual_damages")
     private boolean hasExternalVisualDamages;
+
+    @Column(name = "external_visual_damages_image_ref")
     private String externalVisualDamagesImageRef;
 
+    @Column(name = "has_external_water_ingress")
     private boolean hasExternalWaterIngress;
+
+    @Column(name = "external_water_ingress_image_ref")
     private String externalWaterIngressImageRef;
 
+    @Column(name = "has_external_power_surge")
     private boolean hasExternalPowerSurge;
+
+    @Column(name = "external_power_surge_image_ref")
     private String externalPowerSurgeImageRef;
 
+    @Column(name = "has_damaged_connectors")
     private boolean hasDamagedConnectors;
+
+    @Column(name = "damaged_connectors_image_ref")
     private String damagedConnectorsImageRef;
 
+    @Column(name = "has_internal_visual_damages")
     private boolean hasInternalVisualDamages;
+
+    @Column(name = "internal_visual_damages_image_ref")
     private String internalVisualDamagesImageRef;
 
+    @Column(name = "has_internal_water_ingress")
     private boolean hasInternalWaterIngress;
+
+    @Column(name = "internal_water_ingress_image_ref")
     private String internalWaterIngressImageRef;
 
+    @Column(name = "has_internal_power_surge")
     private boolean hasInternalPowerSurge;
+
+    @Column(name = "internal_power_surge_image_ref")
     private String internalPowerSurgeImageRef;
 
     public static Report initialize(ReportDto reportDto) {
         return Report.builder()
                 .part(reportDto.getPart())
                 .engineer(reportDto.getEngineer())
-                .reportToolings(reportDto.getReportToolings())
-                .repairProcesses(reportDto.getRepairProcesses())
                 .unitDoesNotPowerUp(reportDto.isUnitDoesNotPowerUp())
                 .date(reportDto.getDate())
                 .serial(reportDto.getSerial())

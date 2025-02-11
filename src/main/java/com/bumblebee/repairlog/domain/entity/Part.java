@@ -46,4 +46,8 @@ public class Part extends Auditable {
     @NotNull
     @Size(max = 512)
     private String description;
+
+    public Part (Long id) {
+        this.id = id;
+    }
 }

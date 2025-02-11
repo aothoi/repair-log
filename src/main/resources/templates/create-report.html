@@ -11,7 +11,7 @@
         crossorigin="anonymous"></script>
 <body>
 <nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
-    <div class="container-fluid">
+    <div class="container-fluid mx-5">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarTogglerDemo03"
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -69,7 +69,8 @@
                         <option th:each="engineer : ${engineerList}" th:value="${engineer.id}"
                                 th:text="${engineer.name}"></option>
                     </select>
-                    <span class="text-danger" th:if="${#fields.hasErrors('engineer')}" th:errors="*{engineer}"></span>
+                    <span class="text-danger" th:if="${#fields.hasErrors('engineer')}"
+                          th:errors="*{engineer}"></span>
                 </div>
 
                 <div class="col">
@@ -214,7 +215,7 @@
             </div>
         </div>
 
-        <div class="row my-3">
+        <div class="row mb-3">
             <div class="col-6">
                 <input class="form-check-input" type="checkbox" id="hasInternalPowerSurge" name="hasInternalPowerSurge"
                        th:field="*{hasInternalPowerSurge}"
@@ -236,60 +237,64 @@
 
         <div class="row my-3">
             <h3>Repair Process</h3>
-
-            <div id="repairProcessContainer">
-                <div th:each="repairProcess, i : *{repairProcesses}" class="repair-process-row mb-3"
-                     th:id="|row-${i.index}|">
-                    <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control" th:field="*{repairProcesses[__${i.index}__].action}"
-                                   placeholder="What did you do?">
-                            <span class="text-danger"
-                                  th:if="${#fields.hasErrors('repairProcesses[__${i.index}__].action')}"
-                                  th:errors="*{repairProcesses[__${i.index}__].action}"></span>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" th:field="*{repairProcesses[__${i.index}__].result}"
-                                   placeholder="What was the result?">
-                            <span class="text-danger"
-                                  th:if="${#fields.hasErrors('repairProcesses[__${i.index}__].result')}"
-                                  th:errors="*{repairProcesses[__${i.index}__].result}"></span>
-                        </div>
-                        <div class="col">
-                            <input type="file" class="form-control"
-                                   th:field="*{repairProcesses[__${i.index}__].image}" accept="image/*">
-                            <span class="text-danger"
-                                  th:if="${#fields.hasErrors('repairProcesses[__${i.index}__].image')}"
-                                  th:errors="*{repairProcesses[__${i.index}__].image}"></span>
-                        </div>
-                        <div class="col-1">
-                            <button type="button" class="btn btn-danger" th:onclick="|removeRow(${i.index})|">Remove
-                            </button>
-                        </div>
+            <div id="repairBody">
+                <div class="row my-3" th:each="process, stat : *{repairProcesses}">
+                    <div class="col">
+                        <input type="text" class="form-control" th:field="*{repairProcesses[__${stat.index}__].action}"
+                               placeholder="What did you do?">
+                        <span th:if="${#fields.hasErrors('repairProcesses[__${stat.index}__].action')}"
+                              th:errors="*{repairProcesses[__${stat.index}__].action}" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" th:field="*{repairProcesses[__${stat.index}__].result}"
+                               placeholder="What was the result?">
+                        <span th:if="${#fields.hasErrors('repairProcesses[__${stat.index}__].result')}"
+                              th:errors="*{repairProcesses[__${stat.index}__].result}" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <input type="file" class="form-control" accept="image/*"
+                               th:field="*{repairProcesses[__${stat.index}__].image}">
+                        <span th:if="${#fields.hasErrors('repairProcesses[__${stat.index}__].image')}"
+                              th:errors="*{repairProcesses[__${stat.index}__].image}" class="text-danger"></span>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-danger delete-btn">Delete</button>
                     </div>
                 </div>
             </div>
-
-            <button type="button" class="btn btn-primary mt-3 col-2 mx-3" onclick="addRow()">Add Repair Process</button>
         </div>
+
+        <button type="button" class="btn btn-primary col-2" onclick="addRepairProcess()">Add Repair Process</button>
 
         <hr>
 
         <div class="row my-3">
             <h3>Tooling</h3>
-            <div th:each="tooling : ${toolingList}" class="col-md-6 d-flex align-items-center">
+            <div th:each="tooling, toolingStat : ${toolingList}" class="col-md-6 d-flex align-items-center">
                 <div class="mb-3 w-100">
                     <input type="checkbox"
                            class="form-check-input"
-                           th:id="'tooling-' + ${tooling.id}"
-                           th:value="${tooling.id}"
-                           th:onclick="|toggleCommentBox(${tooling.id})|">
-                    <label class="form-check-label" th:text="${tooling.name}"></label>
+                           th:id="'tooling-' + ${tooling.toolingId}"
+                           th:name="'toolingComments[' + ${toolingStat.index} + '].checked'"
+                           th:checked="${tooling.isChecked}"
+                           th:onclick="|toggleCommentBox(${tooling.toolingId})|">
 
-                    <div th:id="'comment-box-' + ${tooling.id}" style="display: none;">
+                    <input type="text" hidden
+                           th:name="'toolingComments[' + ${toolingStat.index} + '].toolingId'"
+                           th:value="${tooling.toolingId}">
+
+                    <input type="text" hidden
+                           th:name="'toolingComments[' + ${toolingStat.index} + '].toolingName'"
+                           th:value="${tooling.toolingName}">
+
+                    <label class="form-check-label" th:text="${tooling.toolingName}"></label>
+
+                    <div th:id="'comment-box-' + ${tooling.toolingId}"
+                         th:style="${tooling.isChecked} ? 'display:block' : 'display:none'">
                         <input class="form-control my-2"
-                               th:name="'reportToolings[' + ${tooling.id} + '].comment'"
-                               id="comment-${tooling.id}"
+                               th:name="'toolingComments[' + ${toolingStat.index} + '].comment'"
+                               th:value="${tooling.comment}"
+                               id="comment-${tooling.toolingId}"
                                placeholder="Add a comment">
                     </div>
                 </div>
@@ -299,54 +304,39 @@
         <button class="btn btn-primary mt-3 col-2" type="submit">Create</button>
 
     </form>
-
-    <div id="repairProcessTemplate" class="d-none">
-        <div class="repair-process-row mb-3" id="row-INDEX">
-            <div class="row">
-                <div class="col">
-                    <input type="text" class="form-control" name="repairProcesses[INDEX].action"
-                           placeholder="What did you do?">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" name="repairProcesses[INDEX].result"
-                           placeholder="What was the result?">
-                </div>
-                <div class="col">
-                    <input type="file" class="form-control" name="repairProcesses[INDEX].image" accept="image/*">
-                </div>
-                <div class="col-1">
-                    <button type="button" class="btn btn-danger" onclick="removeRow(INDEX)">Remove</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
-    let rowCount = document.querySelectorAll(".repair-process-row").length;
-
-    const addRow = () => {
-        const template = document.getElementById("repairProcessTemplate").innerHTML;
-        const newRow = template.replace(/INDEX/g, rowCount);
-        document.getElementById("repairProcessContainer").insertAdjacentHTML('beforeend', newRow);
-        rowCount++;
+    const removeRow = (rowCount) => {
+        document.getElementById(`row-${rowCount}`).remove();
     }
 
-    const removeRow = (index) => {
-        const row = document.getElementById(`row-${index}`);
-        if (row) row.remove();
-        updateRowIndexes();
-    }
+    const addRepairProcess = () => {
+        const tableBody = document.getElementById("repairBody");
+        const rowCount = tableBody.children.length;
+        const row = document.createElement("div");
+        row.classList.add("row");
+        row.classList.add("my-3");
+        row.setAttribute("id", `row-${rowCount}`)
 
-    const updateRowIndexes = () => {
-        let rows = document.querySelectorAll(".repair-process-row");
-        rows.forEach((row, index) => {
-            row.id = `row-${index}`;
-            row.querySelector("input[name^='repairProcesses']").setAttribute("name", `repairProcesses[${index}].action`);
-            row.querySelectorAll("input[name^='repairProcesses']")[1].setAttribute("name", `repairProcesses[${index}].result`);
-            row.querySelector("input[type='file']").setAttribute("name", `repairProcesses[${index}].image`);
-            row.querySelector("button").setAttribute("onclick", `removeRow(${index})`);
-        });
+        row.innerHTML = `
+            <div class="col">
+                <input type="text" class="form-control" name="repairProcesses[${rowCount}].action" placeholder="What did you do?">
+                <span class="text-danger"></span>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="repairProcesses[${rowCount}].result" placeholder="What was the result?">
+                <span class="text-danger"></span>
+            </div>
+            <div class="col">
+                <input type="file" class="form-control" name="repairProcesses[${rowCount}].image" accept="image/*">
+            </div>
+            <div class="col-1">
+                <button type="button" class="btn btn-danger delete-btn" onclick="removeRow(${rowCount})">Delete</button>
+            </div>
+        `;
+
+        tableBody.appendChild(row);
     }
 
     const toggleCommentBox = (toolingId) => {

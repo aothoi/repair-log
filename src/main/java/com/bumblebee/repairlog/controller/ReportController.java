@@ -1,6 +1,7 @@
 package com.bumblebee.repairlog.controller;
 
 import com.bumblebee.repairlog.domain.dto.ReportDto;
+import com.bumblebee.repairlog.domain.dto.ToolingCommentDto;
 import com.bumblebee.repairlog.repository.EngineerRepository;
 import com.bumblebee.repairlog.repository.PartRepository;
 import com.bumblebee.repairlog.repository.ToolingRepository;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.bumblebee.repairlog.util.Paths.CREATE_REPORT_PAGE;
@@ -44,7 +46,7 @@ public class ReportController {
 
     @GetMapping("/create")
     public String getCreateReportForm(Model model) {
-        getReportModelAttributes(model, new ReportDto());
+        getReportModelAttributes(model, new ReportDto(), false);
 
         return CREATE_REPORT_PAGE;
     }
@@ -53,17 +55,16 @@ public class ReportController {
     public String createReport(@Valid @ModelAttribute ReportDto reportDto,
                                BindingResult bindingResult,
                                Model model) {
-        System.out.println("============== " + reportDto.getReportToolings());
 
-//        if (bindingResult.hasErrors()) {
-//            getReportModelAttributes(model, reportDto);
-//
-//            return "create-report";
-//        }
+        if (bindingResult.hasErrors()) {
+            getReportModelAttributes(model, reportDto, true);
 
-//        reportService.save(report);
+            return "create-report";
+        }
 
-        getReportModelAttributes(model, new ReportDto());
+        reportService.save(reportDto);
+
+        getReportModelAttributes(model, new ReportDto(), false);
 
         return CREATE_REPORT_PAGE;
     }
@@ -78,12 +79,18 @@ public class ReportController {
         return "create-report";
     }
 
-    private void getReportModelAttributes(Model model, ReportDto reportDto) {
+    private void getReportModelAttributes(Model model, ReportDto reportDto, boolean useToolingComments) {
+        List<ToolingCommentDto> toolingList = useToolingComments ?
+                reportDto.getToolingComments() :
+                toolingRepository.findAll().stream()
+                        .map(ToolingCommentDto::initialize)
+                        .toList();
+
         model.addAllAttributes(Map.of(
                 "reportDto", reportDto,
                 "engineerList", engineerRepository.findAll(),
                 "partList", partRepository.findAll(),
-                "toolingList", toolingRepository.findAll()
+                "toolingList", toolingList
         ));
     }
 }

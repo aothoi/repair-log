@@ -1,5 +1,6 @@
 package com.bumblebee.repairlog.domain.entity;
 
+import com.bumblebee.repairlog.domain.dto.ToolingCommentDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -47,4 +48,12 @@ public class ReportTooling extends Auditable {
 
     @Size(max = 512)
     private String comment;
+
+    public static ReportTooling initialize(ToolingCommentDto toolingComment, Report report) {
+        return ReportTooling.builder()
+                .report(report)
+                .tooling(new Tooling(toolingComment.getToolingId()))
+                .comment(toolingComment.getComment())
+                .build();
+    }
 }

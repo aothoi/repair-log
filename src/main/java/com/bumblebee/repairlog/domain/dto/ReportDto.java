@@ -2,8 +2,6 @@ package com.bumblebee.repairlog.domain.dto;
 
 import com.bumblebee.repairlog.domain.entity.Engineer;
 import com.bumblebee.repairlog.domain.entity.Part;
-import com.bumblebee.repairlog.domain.entity.ReportRepairProcess;
-import com.bumblebee.repairlog.domain.entity.ReportTooling;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -42,10 +40,10 @@ public class ReportDto implements Serializable {
     private Engineer engineer;
 
     @Valid
-    private List<ReportTooling> reportToolings;
+    private List<ToolingCommentDto> toolingComments;
 
     @Valid
-    private List<ReportRepairProcess> repairProcesses;
+    private List<ReportRepairProcessDto> repairProcesses;
 
     @NotNull
     private LocalDate date;

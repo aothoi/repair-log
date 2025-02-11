@@ -38,4 +38,8 @@ public class Engineer extends Auditable {
     @NotNull
     @Size(max = 255)
     private String name;
+
+    public Engineer (Long id) {
+        this.id = id;
+    }
 }

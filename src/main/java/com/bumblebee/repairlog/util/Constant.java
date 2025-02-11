@@ -14,4 +14,5 @@ public class Constant {
     public static final String INTERNAL_VISUAL_DAMAGE = "internal_visual_damage";
     public static final String INTERNAL_WATER_INGRESS = "internal_water_ingress";
     public static final String INTERNAL_POWER_SURGE = "internal_POWER_SURGE";
+    public static final String REPAIR_PROCESS = "repair_process";
 }

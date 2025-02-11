@@ -38,4 +38,8 @@ public class Tooling extends Auditable {
     @NotNull
     @Size(max = 255)
     private String name;
+
+    public Tooling(Long id) {
+        this.id = id;
+    }
 }
