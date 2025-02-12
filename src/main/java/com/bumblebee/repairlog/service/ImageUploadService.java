@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +20,7 @@ import static com.bumblebee.repairlog.util.Paths.IMAGE_UPLOAD_PATH;
 @RequiredArgsConstructor
 public class ImageUploadService {
 
-    public void uploadImage(MultipartFile file, String fileBaseName) {
+    public String uploadImage(MultipartFile file, String fileBaseName) {
         try {
             String extension = getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
             String newFileName = fileBaseName + extension;
@@ -36,9 +35,13 @@ public class ImageUploadService {
             Path path = uploadPath.resolve(newFileName);
             Files.write(path, bytes);
 
+            return newFileName;
+
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+
+        return null;
     }
 
     private String getFileExtension(String fileName) {

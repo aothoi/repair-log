@@ -54,6 +54,9 @@
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${#lists.isEmpty(reports)}">
+                <td colspan="6" style="text-align: center;">No results to be shown</td>
+            </tr>
             <tr th:each="report : ${reports}">
                 <th scope="row" th:text="${report.partNumber + '' + report.serial}"></th>
                 <td th:text="${report.date}"></td>

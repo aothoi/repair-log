@@ -60,6 +60,7 @@ public class Report extends Auditable {
                     CascadeType.MERGE,
                     CascadeType.PERSIST
             },
+            fetch = FetchType.LAZY,
             orphanRemoval = true)
     private List<ReportTooling> reportToolings;
 
@@ -69,6 +70,7 @@ public class Report extends Auditable {
                     CascadeType.MERGE,
                     CascadeType.PERSIST
             },
+            fetch = FetchType.LAZY,
             orphanRemoval = true)
     private List<ReportRepairProcess> repairProcesses;
 

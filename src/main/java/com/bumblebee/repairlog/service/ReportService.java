@@ -60,15 +60,15 @@ public class ReportService {
         int count = 1;
 
         for (ReportRepairProcessDto repairProcessDto : reportRepairProcessList) {
-            String fileName = fileBaseName + count + "-";
+            String fileName = fileBaseName + count + "-" + REPAIR_PROCESS;
             ReportRepairProcess reportRepairProcess = new ReportRepairProcess();
             reportRepairProcess.setReport(report);
             reportRepairProcess.setAction(repairProcessDto.getAction());
             reportRepairProcess.setResult(repairProcessDto.getResult());
 
             if (!repairProcessDto.getImage().isEmpty()) {
-                imageUploadService.uploadImage(repairProcessDto.getImage(), fileName);
-                reportRepairProcess.setImageRef(fileName + REPAIR_PROCESS);
+                fileName = imageUploadService.uploadImage(repairProcessDto.getImage(), fileName);
+                reportRepairProcess.setImageRef(fileName);
             }
 
             repairProcesses.add(reportRepairProcess);
@@ -86,38 +86,38 @@ public class ReportService {
 
     private void handleImageUpload(ReportDto reportDto, Report report, String fileBaseName) {
         if (!reportDto.getExternalVisualDamagesImage().isEmpty()) {
-            imageUploadService.uploadImage(reportDto.getExternalVisualDamagesImage(), fileBaseName + EXTERNAL_VISUAL_DAMAGE);
-            report.setExternalVisualDamagesImageRef(fileBaseName + EXTERNAL_VISUAL_DAMAGE);
+            String fileName = imageUploadService.uploadImage(reportDto.getExternalVisualDamagesImage(), fileBaseName + EXTERNAL_VISUAL_DAMAGE);
+            report.setExternalVisualDamagesImageRef(fileName);
         }
 
         if (!reportDto.getExternalWaterIngressImage().isEmpty()) {
-            imageUploadService.uploadImage(reportDto.getExternalWaterIngressImage(), fileBaseName + EXTERNAL_WATER_INGRESS);
-            report.setExternalWaterIngressImageRef(fileBaseName + EXTERNAL_WATER_INGRESS);
+            String fileName = imageUploadService.uploadImage(reportDto.getExternalWaterIngressImage(), fileBaseName + EXTERNAL_WATER_INGRESS);
+            report.setExternalWaterIngressImageRef(fileName);
         }
 
         if (!reportDto.getExternalPowerSurgeImage().isEmpty()) {
-            imageUploadService.uploadImage(reportDto.getExternalPowerSurgeImage(), fileBaseName + EXTERNAL_POWER_SURGE);
-            report.setExternalPowerSurgeImageRef(fileBaseName + EXTERNAL_POWER_SURGE);
+            String fileName = imageUploadService.uploadImage(reportDto.getExternalPowerSurgeImage(), fileBaseName + EXTERNAL_POWER_SURGE);
+            report.setExternalPowerSurgeImageRef(fileName);
         }
 
         if (!reportDto.getDamagedConnectorsImage().isEmpty()) {
-            imageUploadService.uploadImage(reportDto.getDamagedConnectorsImage(), fileBaseName + DAMAGED_CONNECTOR);
-            report.setDamagedConnectorsImageRef(fileBaseName + DAMAGED_CONNECTOR);
+            String fileName = imageUploadService.uploadImage(reportDto.getDamagedConnectorsImage(), fileBaseName + DAMAGED_CONNECTOR);
+            report.setDamagedConnectorsImageRef(fileName);
         }
 
         if (!reportDto.getInternalPowerSurgeImage().isEmpty()) {
-            imageUploadService.uploadImage(reportDto.getInternalPowerSurgeImage(), fileBaseName + INTERNAL_POWER_SURGE);
-            report.setInternalPowerSurgeImageRef(fileBaseName + INTERNAL_POWER_SURGE);
+            String fileName = imageUploadService.uploadImage(reportDto.getInternalPowerSurgeImage(), fileBaseName + INTERNAL_POWER_SURGE);
+            report.setInternalPowerSurgeImageRef(fileName);
         }
 
         if (!reportDto.getInternalVisualDamagesImage().isEmpty()) {
-            imageUploadService.uploadImage(reportDto.getInternalVisualDamagesImage(), fileBaseName + INTERNAL_VISUAL_DAMAGE);
-            report.setInternalVisualDamagesImageRef(fileBaseName + INTERNAL_VISUAL_DAMAGE);
+            String fileName = imageUploadService.uploadImage(reportDto.getInternalVisualDamagesImage(), fileBaseName + INTERNAL_VISUAL_DAMAGE);
+            report.setInternalVisualDamagesImageRef(fileName);
         }
 
         if (!reportDto.getInternalWaterIngressImage().isEmpty()) {
-            imageUploadService.uploadImage(reportDto.getInternalWaterIngressImage(), fileBaseName + INTERNAL_WATER_INGRESS);
-            report.setInternalWaterIngressImageRef(fileBaseName + INTERNAL_WATER_INGRESS);
+            String fileName = imageUploadService.uploadImage(reportDto.getInternalWaterIngressImage(), fileBaseName + INTERNAL_WATER_INGRESS);
+            report.setInternalWaterIngressImageRef(fileName);
         }
     }
 }

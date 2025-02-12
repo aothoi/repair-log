@@ -91,84 +91,181 @@
 
         <hr class="my-4">
 
-        <div class="row my-3">
+        <div class="row mb-3">
             <h4>Visual Inspection (External)</h4>
 
             <div class="col">
-                <div th:if="${report.hasExternalVisualDamages}">
-                    <p><strong>External Visual Damages:</strong> Yes</p>
-                    <div>
-                        <label><strong>Image:</strong></label>
-                        <a th:href="@{'/images/' + ${report.externalVisualDamagesImageRef}}" target="_blank">View Image</a>
-                    </div>
-                </div>
-                <div th:unless="${report.hasExternalVisualDamages}">
-                    <p><strong>External Visual Damages:</strong> No</p>
-                </div>
+                <strong>External Visual Damages:</strong>
+                <span th:if="${report.hasExternalVisualDamages}">
+                     Yes <button th:if="${report.externalVisualDamagesImageRef}"
+                                 th:attr="data-image-ref=${report.externalVisualDamagesImageRef}"
+                                 class="btn btn-outline-primary btn-sm"
+                                 onclick="viewImage(this)">View Image</button>
+                </span>
+                <span th:unless="${report.hasExternalVisualDamages}">No</span>
             </div>
 
             <div class="col">
-                <div th:if="${report.hasExternalWaterIngress}">
-                    <p><strong>Signs of External Water Ingress:</strong> Yes</p>
-                    <div>
-                        <label><strong>Image:</strong></label>
-                        <a th:href="@{'/images/' + ${report.externalWaterIngressImageRef}}" target="_blank">View Image</a>
-                    </div>
-                </div>
-                <div th:unless="${report.hasExternalWaterIngress}">
-                    <p><strong>Signs of External Water Ingress:</strong> No</p>
-                </div>
+                <strong>Signs of External Water Ingress:</strong>
+                <span th:if="${report.hasExternalWaterIngress}">
+                     Yes <a th:if="${report.externalWaterIngressImageRef}"
+                            th:attr="data-image-ref=${report.externalWaterIngressImageRef}"
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="viewImage(this)">View Image</a>
+                </span>
+                <span th:unless="${report.hasExternalWaterIngress}">No</span>
             </div>
-
-            <!--            <div class="col">-->
-            <!--                <input class="form-check-input" type="checkbox" id="hasExternalWaterIngress"-->
-            <!--                       name="hasExternalWaterIngress"-->
-            <!--                       th:field="*{hasExternalWaterIngress}"-->
-            <!--                       data-bs-toggle="collapse" data-bs-target="#externalWaterIngressSection"-->
-            <!--                />-->
-            <!--                <label class="form-check-label" for="hasExternalWaterIngress">Signs of External Water Ingress</label>-->
-            <!--                <div id="externalWaterIngressSection" class="collapse input-group mt-2" th:classappend="*{hasExternalWaterIngress} ? 'show'">-->
-            <!--                    <label class="input-group-text">Image</label>-->
-            <!--                    <input class="form-control" type="file" th:field="*{externalWaterIngressImage}" accept="image/*"/>-->
-            <!--                </div>-->
-            <!--            </div>-->
         </div>
 
-        <!--        <div class="row mb-3">-->
-        <!--            <div class="col">-->
-        <!--                <input class="form-check-input" type="checkbox" id="hasExternalPowerSurge" name="hasExternalPowerSurge"-->
-        <!--                       th:field="*{hasExternalPowerSurge}"-->
-        <!--                       data-bs-toggle="collapse" data-bs-target="#externalPowerSurgeSection"-->
-        <!--                />-->
-        <!--                <label class="form-check-label" for="hasExternalPowerSurge">Signs of External Power Surge</label>-->
-        <!--                <div th:if="${#fields.hasErrors('hasExternalPowerSurge')}">-->
-        <!--                    <span th:errors="*{hasExternalPowerSurge}"></span>-->
-        <!--                </div>-->
-        <!--                <div id="externalPowerSurgeSection" class="collapse input-group mt-2" th:classappend="*{hasExternalPowerSurge} ? 'show'">-->
-        <!--                    <label class="input-group-text" for="externalPowerSurgeImage">Image</label>-->
-        <!--                    <input class="form-control" type="file" th:field="*{externalPowerSurgeImage}" accept="image/*"/>-->
-        <!--                </div>-->
-        <!--            </div>-->
+        <div class="row mb-3">
+            <div class="col">
+                <strong>Signs of External Power Surge:</strong>
+                <span th:if="${report.hasExternalPowerSurge}">
+                     Yes <a th:if="${report.externalPowerSurgeImageRef}"
+                            th:attr="data-image-ref=${report.externalPowerSurgeImageRef}"
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="viewImage(this)">View Image</a>
+                </span>
+                <span th:unless="${report.hasExternalPowerSurge}">No</span>
+            </div>
 
-        <!--            <div class="col">-->
-        <!--                <input class="form-check-input" type="checkbox" id="hasDamagedConnectors" name="hasDamagedConnectors"-->
-        <!--                       th:field="*{hasDamagedConnectors}"-->
-        <!--                       data-bs-toggle="collapse" data-bs-target="#damagedConnectorsSection"-->
-        <!--                />-->
-        <!--                <label class="form-check-label" for="hasDamagedConnectors">Damaged Connectors</label>-->
-        <!--                <div th:if="${#fields.hasErrors('hasDamagedConnectors')}">-->
-        <!--                    <span th:errors="*{hasDamagedConnectors}"></span>-->
-        <!--                </div>-->
-        <!--                <div id="damagedConnectorsSection" class="collapse input-group mt-2" th:classappend="*{hasDamagedConnectors} ? 'show'">-->
-        <!--                    <label class="input-group-text" for="damagedConnectorsImage">Image</label>-->
-        <!--                    <input class="form-control" type="file" th:field="*{damagedConnectorsImage}" accept="image/*"/>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
+            <div class="col">
+                <strong>Damaged Connectors:</strong>
+                <span th:if="${report.hasDamagedConnectors}">
+                     Yes <a th:if="${report.damagedConnectorsImageRef}"
+                            th:attr="data-image-ref=${report.damagedConnectorsImageRef}"
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="viewImage(this)">View Image</a>
+                </span>
+                <span th:unless="${report.hasDamagedConnectors}">No</span>
+            </div>
+        </div>
 
         <hr>
 
+        <div class="row mb-3">
+            <h4>Electrical Inspection</h4>
+            <div class="col">
+                <strong>Unit does not power-up (L1 test):</strong>
+                <span th:if="${report.unitDoesNotPowerUp}">Yes</span>
+                <span th:unless="${report.unitDoesNotPowerUp}">No</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+            <h4>Visual Inspection (Internal)</h4>
+
+            <div class="col">
+                <strong>Internal Visual Damages:</strong>
+                <span th:if="${report.hasInternalVisualDamages}">
+                     Yes <button th:if="${report.internalVisualDamagesImageRef}"
+                                 th:attr="data-image-ref=${report.internalVisualDamagesImageRef}"
+                                 class="btn btn-outline-primary btn-sm"
+                                 onclick="viewImage(this)">View Image</button>
+                </span>
+                <span th:unless="${report.hasInternalVisualDamages}">No</span>
+            </div>
+
+            <div class="col">
+                <strong>Signs of Internal Water Ingress:</strong>
+                <span th:if="${report.hasInternalWaterIngress}">
+                     Yes <a th:if="${report.internalWaterIngressImageRef}"
+                            th:attr="data-image-ref=${report.internalWaterIngressImageRef}"
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="viewImage(this)">View Image</a>
+                </span>
+                <span th:unless="${report.hasInternalWaterIngress}">No</span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <strong>Signs of Internal Power Surge:</strong>
+                <span th:if="${report.hasInternalPowerSurge}">
+                     Yes <a th:if="${report.internalPowerSurgeImageRef}"
+                            th:attr="data-image-ref=${report.internalPowerSurgeImageRef}"
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="viewImage(this)">View Image</a>
+                </span>
+                <span th:unless="${report.hasInternalPowerSurge}">No</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+            <div class="col">
+                <h4>Repair Process:</h4>
+                <table class="table table-responsive table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Result</th>
+                        <th scope="col">Image</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(report.repairProcesses)}">
+                        <td colspan="3" style="text-align: center;">No repair process was added</td>
+                    </tr>
+                    <tr th:each="repairProcess, iterStat : ${report.repairProcesses}">
+                        <th scope="row" th:text="${iterStat.index + 1}"></th>
+                        <td style="max-width: 100px;" th:text="${repairProcess.action}"></td>
+                        <td style="max-width: 100px;" th:text="${repairProcess.result}"></td>
+                        <td>
+                            <span th:if="${repairProcess.imageRef != null}">
+                                <button class="btn btn-outline-primary btn-sm"
+                                        th:attr="data-image-ref=${repairProcess.imageRef}"
+                                        onclick="viewImage(this)">View Image</button>
+                            </span>
+                            <span th:unless="${repairProcess.imageRef != null}">N/A</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+            <div class="col">
+                <h4>Tooling:</h4>
+                <table class="table table-responsive table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(report.reportToolings)}">
+                        <td colspan="3" style="text-align: center;">No tooling was selected</td>
+                    </tr>
+                    <tr th:each="reportTooling, iterStat : ${report.reportToolings}">
+                        <th scope="row" th:text="${iterStat.index + 1}"></th>
+                        <td style="max-width: 100px;" th:text="${reportTooling.tooling.name}"></td>
+                        <td>
+                            <span th:if="${reportTooling.comment != null}" th:text="${reportTooling.comment}"></span>
+                            <span th:unless="${reportTooling.comment != null}">N/A</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    const viewImage = (image) => {
+        const imageRef = '/images/' + image.getAttribute('data-image-ref');
+        window.open(imageRef, '_blank');
+    }
+</script>
 </body>
 </html>

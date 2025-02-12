@@ -86,7 +86,6 @@ public class ReportController {
     @GetMapping("/{reportId}/details")
     public String getFormDetails(@PathVariable Long reportId, Model model) {
         model.addAttribute("report", reportService.getById(reportId));
-        System.out.println(reportService.getById(reportId).isHasExternalVisualDamages());
         return REPORT_DETAILS_PAGE;
     }
 
