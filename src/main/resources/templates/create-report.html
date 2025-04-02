@@ -1,3 +1,8 @@
+<!--
+ * @author aothoi
+ * @since 02-Apr-25
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +38,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/report/list">Report List</a>
                     </li>
+                    <li class="nav-item" style="cursor: pointer;">
+                        <div class="dropdown nav-link">
+                            <span class="dropdown-toggle" id="dropdownMenuButton"
+                                  data-bs-toggle="dropdown" aria-expanded="false">
+                                Test Report
+                            </span>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/test-report/create">Create</a>
+                                <a class="dropdown-item" href="/test-report/list">List</a>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -41,22 +58,25 @@
 
 <div class="container-xxl bd-gutter mt-3 my-md-4">
     <h2 class="mb-3">Create Report</h2>
+    <div class="alert alert-success text-center" role="alert" th:if="${success}">
+        <span>Successfully create report. <a href="/report/list">View list</a></span>
+    </div>
     <form name="frmCreateReport" th:action="@{/report/create}" method="post" th:object="${reportDto}"
           enctype="multipart/form-data" class="card p-3">
         <div>
             <div class="row mb-3">
-                <div class="col-4">
-                    <label class="form-label fw-bold" for="part">Part <span class="text-danger">*</span></label>
+                <div class="col">
+                    <label class="form-label fw-bold" for="part">Item <span class="text-danger">*</span></label>
                     <select class="form-select" id="part" name="part" th:field="*{part}" onchange="onPartChange()">
-                        <option value="" data-oem="" data-desc="">-- Select Part --</option>
-                        <option th:each="part : ${partList}" th:value="${part.id}" th:text="${part.number}"
-                                th:attr="data-oem=${part.oem},data-desc=${part.description}"></option>
+                        <option value="" data-item="">-- Select Item --</option>
+                        <option th:each="part : ${partList}" th:value="${part.id}" th:text="${part.oem + ' ' + part.description}"
+                                th:attr="data-item=${part.number}"></option>
                     </select>
                     <span class="text-danger" th:if="${#fields.hasErrors('part')}" th:errors="*{part}"></span>
                 </div>
-                <div class="col">
-                    <label for="partDesc" class="form-label fw-bold">OEM & Description</label>
-                    <input placeholder="OEM & description" name="partDesc" id="partDesc" type="text"
+                <div class="col-4">
+                    <label for="partNum" class="form-label fw-bold">Part Number</label>
+                    <input placeholder="Part Number" name="partNum" id="partNum" type="text"
                            class="form-control" readonly/>
                 </div>
             </div>
@@ -82,7 +102,7 @@
 
                 <div class="col">
                     <label class="form-label fw-bold" for="date">Date <span class="text-danger">*</span></label>
-                    <input class="form-select" id="date" name="date" type="date" th:field="*{date}"/>
+                    <input class="form-control" id="date" name="date" type="date" th:field="*{date}"/>
                     <span class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
                 </div>
             </div>
@@ -354,7 +374,7 @@
         const partElem = document.frmCreateReport.part;
         const selectedValue = partElem.value;
 
-        const partDetailsInput = document.getElementById('partDesc');
+        const partDetailsInput = document.getElementById('partNum');
         partDetailsInput.value = '';
 
         if (selectedValue.trim() === '') {
@@ -362,7 +382,7 @@
         }
 
         const selectedOption = partElem.options[selectedValue];
-        partDetailsInput.value = selectedOption.getAttribute('data-oem') + " " + selectedOption.getAttribute('data-desc');
+        partDetailsInput.value = selectedOption.getAttribute('data-item');
     }
 </script>
 </body>

@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import static com.bumblebee.repairlog.util.Paths.IMAGE_UPLOAD_PATH;
+import static com.bumblebee.repairlog.util.Paths.TEST_REPORT_UPLOAD_PATH;
 
 /**
  * @author aothoi
@@ -18,14 +19,14 @@ import static com.bumblebee.repairlog.util.Paths.IMAGE_UPLOAD_PATH;
  */
 @Service
 @RequiredArgsConstructor
-public class ImageUploadService {
+public class FileUploadService {
 
-    public String uploadImage(MultipartFile file, String fileBaseName) {
+    public String uploadFile(MultipartFile file, String fileBaseName, boolean isTestReport) {
         try {
             String extension = getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
             String newFileName = fileBaseName + extension;
 
-            Path uploadPath = Paths.get("").toAbsolutePath().resolve(IMAGE_UPLOAD_PATH);
+            Path uploadPath = Paths.get("").toAbsolutePath().resolve(isTestReport ? TEST_REPORT_UPLOAD_PATH : IMAGE_UPLOAD_PATH);
 
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);

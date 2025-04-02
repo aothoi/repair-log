@@ -62,12 +62,13 @@ public class ReportController {
         if (bindingResult.hasErrors()) {
             getReportModelAttributes(model, reportDto, true);
 
-            return "create-report";
+            return CREATE_REPORT_PAGE;
         }
 
         reportService.save(reportDto);
 
         getReportModelAttributes(model, new ReportDto(), false);
+        model.addAttribute("success", true);
 
         return CREATE_REPORT_PAGE;
     }
